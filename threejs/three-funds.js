@@ -12,7 +12,7 @@ function main()	{
 	const near = 0.1;
 	const far = 5;
 	const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-	camera.position.z = 2;
+	camera.position.z = 3;
 	
 	//scene block
 	const scene = new THREE.Scene();
@@ -25,6 +25,8 @@ function main()	{
 	//const mate = new THREE.MeshPhongMaterial({color: 0xC7E8C1});	//phong materials are hit by lights
 	//const cube = new THREE.Mesh(geom, mate);
 	//scene.add(cube);
+	
+
 	
 	function cuber(geometry, color, x){
 		const material = new THREE.MeshPhongMaterial({color});
@@ -39,6 +41,29 @@ function main()	{
 	cuber(geom, 0xC7E8C1, -2),
 	cuber(geom, 0xE8C7C1, 0),
 	cuber(geom, 0xC1C7E8, 2)
+	];
+	
+	//let's add some circle sections!
+	const cradius = .5;
+	const csegments = 9;
+	const cthetastart = Math.PI*4/9;
+	const cthetalength = Math.PI*2/9;
+	const cgeometry = new THREE.CircleGeometry(
+    cradius, csegments, cthetastart, cthetalength);
+	
+	function circler(geometry, color, x, y){
+		const material = new THREE.MeshPhongMaterial({color});
+		const circ = new THREE.Mesh(geometry, material);
+		scene.add(circ);
+		
+		circ.position.x = x;
+		circ.position.y = y;
+		return circ;//here's your ARC good sir
+	}
+	const circs = [
+	circler (cgeometry, 0xE8E8C1, -2, 1.2),
+	circler (cgeometry, 0xC1E8E8, 0, 1.2),
+	circler (cgeometry, 0xE8C1E8, 2, 1.2),
 	];
 	
 	const licolor = 0xFFFFFF;
@@ -69,9 +94,14 @@ function render(time) {
 	camera.updateProjectionMatrix();
 	}
 	
+	
 	cubes.forEach((cube) => {
 	cube.rotation.x = time;
 	cube.rotation.y = time;
+	});
+	
+	circs.forEach((circ) => {
+	circ.rotation.y = time/2;
 	});
 	
 	renderer.render(scene, camera);

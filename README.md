@@ -1,4 +1,3 @@
-
 this is the pickiest gott darn thing I've run in my entire life
 # INSTRUCTIONS FOR USE
 1 WRITE SCRIPTS INTO /THREEJS/.  
